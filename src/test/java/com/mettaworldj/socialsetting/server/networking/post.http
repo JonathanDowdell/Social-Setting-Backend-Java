@@ -1,0 +1,12 @@
+### CREATE POST
+POST http://localhost:8080/api/subSetting/CS Students/post
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "postName": "Java VS Python?",
+  "description": "And what makes it so nice to you?"
+}
+
+###

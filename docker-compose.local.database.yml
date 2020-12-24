@@ -1,0 +1,32 @@
+version: '3'
+
+networks:
+  social-network:
+
+services:
+  postgresql-social-setting:
+    container_name: "DB-Social-Setting"
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=~56%78Hu+*GF%4yB
+      - POSTGRES_USER=metta
+      - POSTGRES_DB=socialsetting
+    ports:
+      - 5432:5432
+    networks:
+      - social-network
+
+  redis-social-setting:
+    container_name: "Redis-Social-Setting"
+    image: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - social-setting-db:/data
+    networks:
+      - social-network
+
+volumes:
+  social-setting-db:

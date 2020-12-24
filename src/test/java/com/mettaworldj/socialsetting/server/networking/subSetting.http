@@ -1,0 +1,26 @@
+### CREATE SUBSETTING
+POST http://localhost:8080/api/subSetting
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "CS Students",
+  "description": "A place where CS Students talk about CS stuff!"
+}
+
+### GET SUBSETTING FEED
+GET http://localhost:8080/api/subSetting/CS Students?page=0&amount=2
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### FOLLOW SUBSETTING
+PUT http://localhost:8080/api/subSetting/follow/CS Students
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### UNFOLLOW SUBSETTING
+PUT http://localhost:8080/api/subSetting/unfollow/CS Students
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+

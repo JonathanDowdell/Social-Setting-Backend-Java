@@ -1,0 +1,38 @@
+### SIGNUP
+POST http://localhost:8080/api/auth/signup
+Accept: application/json
+Content-Type: application/json
+
+{
+  "email": "jonathan@mail.com",
+  "username": "jonathan",
+  "profileName": "jonathan's Code",
+  "password": "123"
+}
+
+### LOGIN
+POST http://localhost:8080/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "mettaworldj",
+  "password": "123"
+}
+
+> {% client.global.set("auth_token", response.body.authenticationToken); %}
+
+
+### VERIFY TOKEN
+POST http://localhost:8080/api/auth/token/verify/code/
+Accept: application/json
+Content-Type: application/json
+
+{
+  "code": 2677951
+}
+
+> {% client.global.set("auth_token", response.body.authenticationToken); %}
+
+
+###
