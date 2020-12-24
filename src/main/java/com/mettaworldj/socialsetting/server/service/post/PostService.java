@@ -59,6 +59,7 @@ public class PostService implements IPostService {
         final FeedEntity feedEntity = FeedEntity.builder()
                 .userId(userEntity.getUserId())
                 .postId(savedPost.getPostId())
+                .subSettingId(subSettingEntity.getSubSettingId())
                 .userEntity(userEntity)
                 .postEntity(savedPost)
                 .build();
@@ -76,6 +77,7 @@ public class PostService implements IPostService {
             final FeedEntity feedEntity = FeedEntity.builder()
                     .userId(targetUser.getUserId())
                     .postId(savedPost.getPostId())
+                    .subSettingId(subSettingEntity.getSubSettingId())
                     .userEntity(targetUser)
                     .postEntity(savedPost)
                     .build();

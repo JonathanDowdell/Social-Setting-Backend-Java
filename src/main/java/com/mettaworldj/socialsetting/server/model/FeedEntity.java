@@ -26,6 +26,9 @@ public class FeedEntity {
     @Id
     private Long postId;
 
+    @Id
+    private Long subSettingId;
+
     @ManyToOne
     private UserEntity userEntity;
 
@@ -38,6 +41,7 @@ public class FeedEntity {
     public static class FeedEntityId implements Serializable {
         private Long userId;
         private Long postId;
+        private Long subSettingId;
 
         @Override
         public boolean equals(Object o) {

@@ -6,9 +6,8 @@ import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingRe
 import com.mettaworldj.socialsetting.server.exception.SocialSettingException;
 import com.mettaworldj.socialsetting.server.mapper.PostMapper;
 import com.mettaworldj.socialsetting.server.mapper.SubSettingMapper;
-import com.mettaworldj.socialsetting.server.model.SubSettingEntity;
-import com.mettaworldj.socialsetting.server.model.SubscriptionEntity;
-import com.mettaworldj.socialsetting.server.model.UserEntity;
+import com.mettaworldj.socialsetting.server.model.*;
+import com.mettaworldj.socialsetting.server.repository.FeedRepository;
 import com.mettaworldj.socialsetting.server.repository.PostRepository;
 import com.mettaworldj.socialsetting.server.repository.SubSettingRepository;
 import com.mettaworldj.socialsetting.server.repository.SubscriptionRepository;
@@ -30,6 +29,7 @@ public class SubSettingService implements ISubSettingService {
     private final SubSettingRepository subSettingRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final PostRepository postRepository;
+    private final FeedRepository feedRepository;
 
     private final IAuthService authService;
     private final SubSettingMapper subSettingMapper;
@@ -61,7 +61,6 @@ public class SubSettingService implements ISubSettingService {
 
     @Override
     public List<PostResponseDto> getSubSettingFeedByName(String subSettingName, int page, int amount, boolean info) {
-        final UserEntity userEntity = authService.currentUser();
         final SubSettingEntity subSettingEntity = subSettingRepository.findByName(subSettingName)
                 .orElseThrow(() -> new SocialSettingException("SubSetting Not Found", HttpStatus.NOT_FOUND));
 
@@ -83,6 +82,19 @@ public class SubSettingService implements ISubSettingService {
                 .userEntity(userEntity)
                 .build();
         subscriptionRepository.save(subscriptionEntity);
+
+        final List<PostEntity> postFromSubSetting = postRepository.findAllBySubSettingId(subSettingEntity.getSubSettingId(), PageRequest.of(0, 20));
+
+        postFromSubSetting.forEach(postEntity -> {
+            final FeedEntity feedEntity = FeedEntity.builder()
+                    .userId(userEntity.getUserId())
+                    .postId(postEntity.getPostId())
+                    .subSettingId(subSettingEntity.getSubSettingId())
+                    .userEntity(userEntity)
+                    .postEntity(postEntity)
+                    .build();
+            feedRepository.save(feedEntity);
+        });
     }
 
     @Override
@@ -91,5 +103,6 @@ public class SubSettingService implements ISubSettingService {
         final SubSettingEntity subSettingEntity = subSettingRepository.findByName(subSettingName)
                 .orElseThrow(() -> new SocialSettingException("SubSetting Not Found", HttpStatus.NOT_FOUND));
         subscriptionRepository.deleteById(new SubscriptionEntity.SubscriptionEntityId(subSettingEntity.getSubSettingId(), userEntity.getUserId()));
+        feedRepository.deleteAllByUserIdAndSubSettingId(userEntity.getUserId(), subSettingEntity.getSubSettingId());
     }
 }

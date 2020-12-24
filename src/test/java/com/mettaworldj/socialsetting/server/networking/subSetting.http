@@ -10,12 +10,12 @@ Authorization: Bearer {{auth_token}}
 }
 
 ### GET SUBSETTING FEED
-GET http://localhost:8080/api/subSetting/CS Students?page=0&amount=2
+GET http://localhost:8080/api/subSetting/CS Students?page=0&amount=4
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
 ### FOLLOW SUBSETTING
-PUT http://localhost:8080/api/subSetting/follow/CS Students
+PUT http://localhost:8080/api/subSetting/follow/mettaworldj
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 

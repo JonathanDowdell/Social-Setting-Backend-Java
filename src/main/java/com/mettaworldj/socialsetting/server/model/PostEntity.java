@@ -44,6 +44,8 @@ public class PostEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private SubSettingEntity subSettingEntity;
 
+    private int voteCount = 0;
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

@@ -1,11 +1,11 @@
 ### CREATE POST
-POST http://localhost:8080/api/subSetting/CS Students/post
+POST http://localhost:8080/api/subSetting/mettaworldj/post
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "postName": "Java VS Python?",
+  "postName": "Why is Python so popular?",
   "description": "And what makes it so nice to you?"
 }
 
