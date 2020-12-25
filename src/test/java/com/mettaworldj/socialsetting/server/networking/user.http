@@ -1,5 +1,5 @@
 ### GET USER FEED
-GET http://localhost:8080/api/user/feed?page=&amount=20
+GET http://localhost:8080/api/user/feed?page=0&amount=10
 Accept: application/json
 Authorization: Bearer {{auth_token}}
 
