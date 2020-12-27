@@ -16,7 +16,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "username": "jonathan",
+  "username": "mettaworldj",
   "password": "123"
 }
 
@@ -29,7 +29,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "code": 5036361
+  "code": 8656082
 }
 
 > {% client.global.set("auth_token", response.body.authenticationToken); %}

@@ -1,0 +1,14 @@
+### CREATE COMMENT
+POST http://localhost:8080/api/subSetting/CS Students/post/14/comment
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "text": "Usually around 4 years"
+}
+
+### GET COMMENT
+GET http://localhost:8080/api/subSetting/CS Students/post/8/comment?page=0
+Accept: application/json
+Authorization: Bearer {{auth_token}}
