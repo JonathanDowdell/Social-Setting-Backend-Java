@@ -1,7 +1,7 @@
 package com.mettaworldj.socialsetting.server.service.subSetting;
 
-import com.mettaworldj.socialsetting.server.dto.post.reponse.PostResponseDto;
 import com.mettaworldj.socialsetting.server.dto.subSetting.request.SubSettingRequestDto;
+import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingFeedResponseDto;
 import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingResponseDto;
 import com.mettaworldj.socialsetting.server.exception.SocialSettingException;
 import com.mettaworldj.socialsetting.server.mapper.PostMapper;
@@ -60,14 +60,17 @@ public class SubSettingService implements ISubSettingService {
     }
 
     @Override
-    public List<PostResponseDto> getSubSettingFeedByName(String subSettingName, int page, int amount, boolean info) {
+    public SubSettingFeedResponseDto getSubSettingFeedByName(String subSettingName, int page, int amount, boolean info) {
         final SubSettingEntity subSettingEntity = subSettingRepository.findByName(subSettingName)
                 .orElseThrow(() -> new SocialSettingException("SubSetting Not Found", HttpStatus.NOT_FOUND));
 
-        return postRepository.findAllBySubSettingId(subSettingEntity.getSubSettingId(), PageRequest.of(page, amount))
-                .stream()
-                .map(postMapper::mapPostToDto)
-                .collect(Collectors.toList());
+        return SubSettingFeedResponseDto.builder()
+                .subSettingInfo(info ? subSettingMapper.mapToDto(subSettingEntity) : null)
+                .posts(postRepository.findAllBySubSettingId(subSettingEntity.getSubSettingId(), PageRequest.of(page, amount))
+                        .stream()
+                        .map(postMapper::mapPostToDto)
+                        .collect(Collectors.toList()))
+                .build();
     }
 
     @Override

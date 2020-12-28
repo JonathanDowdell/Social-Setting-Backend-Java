@@ -1,7 +1,7 @@
 package com.mettaworldj.socialsetting.server.controller;
 
-import com.mettaworldj.socialsetting.server.dto.post.reponse.PostResponseDto;
 import com.mettaworldj.socialsetting.server.dto.subSetting.request.SubSettingRequestDto;
+import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingFeedResponseDto;
 import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingResponseDto;
 import com.mettaworldj.socialsetting.server.service.subSetting.ISubSettingService;
 import lombok.AllArgsConstructor;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 
 @RestController
@@ -25,10 +24,10 @@ public class SubSettingController {
     }
 
     @GetMapping("/{subSettingName}")
-    public ResponseEntity<List<PostResponseDto>> getSubSettingByName(@PathVariable String subSettingName,
-                                                                     @RequestParam(defaultValue = "0") int page,
-                                                                     @RequestParam(defaultValue = "5") int amount,
-                                                                     @RequestParam(defaultValue = "true") boolean info) {
+    public ResponseEntity<SubSettingFeedResponseDto> getSubSettingByName(@PathVariable String subSettingName,
+                                                                         @RequestParam(defaultValue = "0") int page,
+                                                                         @RequestParam(defaultValue = "5") int amount,
+                                                                         @RequestParam(defaultValue = "true") boolean info) {
         return ResponseEntity.status(HttpStatus.OK).body(subSettingService.getSubSettingFeedByName(subSettingName, page, amount, info));
     }
 

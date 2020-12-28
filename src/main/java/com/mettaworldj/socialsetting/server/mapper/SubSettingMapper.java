@@ -19,13 +19,6 @@ public interface SubSettingMapper {
     class SubSettingMapperDecorator implements SubSettingMapper {
 
         @Autowired
-        @Qualifier("delegate")
-        private SubSettingMapper delegate;
-
-        @Autowired
-        private PostService postService;
-
-        @Autowired
         private PostRepository postRepository;
 
         @Override
