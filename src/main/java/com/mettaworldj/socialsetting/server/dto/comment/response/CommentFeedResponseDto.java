@@ -1,18 +1,18 @@
 package com.mettaworldj.socialsetting.server.dto.comment.response;
 
+import com.mettaworldj.socialsetting.server.dto.post.reponse.PostResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentResponseDto {
-    private long id;
-    private long postId;
-    private String text;
-    private String username;
-    private String duration;
+public class CommentFeedResponseDto {
+    PostResponseDto post;
+    List<CommentResponseDto> comments;
 }

@@ -1,6 +1,7 @@
 package com.mettaworldj.socialsetting.server.controller;
 
 import com.mettaworldj.socialsetting.server.dto.comment.request.CommentRequestDto;
+import com.mettaworldj.socialsetting.server.dto.comment.response.CommentFeedResponseDto;
 import com.mettaworldj.socialsetting.server.dto.comment.response.CommentResponseDto;
 import com.mettaworldj.socialsetting.server.service.comment.ICommentService;
 import lombok.AllArgsConstructor;
@@ -26,12 +27,21 @@ public class CommentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> getComments(@PathVariable String subSettingName,
-                                                                @PathVariable Long postId,
-                                                                @RequestParam(defaultValue = "0") int page,
-                                                                @RequestParam(defaultValue = "5") int amount) {
+    public ResponseEntity<CommentFeedResponseDto> getComments(@PathVariable String subSettingName,
+                                                              @PathVariable Long postId,
+                                                              @RequestParam(defaultValue = "0") int page,
+                                                              @RequestParam(defaultValue = "5") int amount,
+                                                              @RequestParam(defaultValue = "true") boolean info) {
         return ResponseEntity.status(HttpStatus.OK)
-                .body(commentService.getCommentsFromPost(subSettingName, postId, page, amount));
+                .body(commentService.getCommentsFromPost(subSettingName, postId, page, amount, info));
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Boolean> deleteComment(@PathVariable String subSettingName,
+                                                 @PathVariable Long postId,
+                                                 @PathVariable Long commentId) {
+        commentService.deleteById(subSettingName, postId, commentId);
+        return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 
 }

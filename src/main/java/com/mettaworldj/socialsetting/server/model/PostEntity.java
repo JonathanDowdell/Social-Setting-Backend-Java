@@ -47,11 +47,14 @@ public class PostEntity {
 
     private int voteCount = 0;
 
+    private int commentCount = 0;
+
     private Instant createdDate;
 
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
+    @Builder
     public static class PostEntityId implements Serializable {
 
         private Long subSettingId;

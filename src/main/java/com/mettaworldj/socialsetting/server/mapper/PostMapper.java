@@ -49,7 +49,7 @@ public interface PostMapper {
                     .username(postEntity.getUserEntity().getUsername())
                     .subSettingName(postEntity.getSubSettingEntity().getName())
                     .voteCount(postEntity.getVoteCount())
-                    .commentCount(0)
+                    .commentCount(postEntity.getCommentCount())
                     .duration(getDuration(postEntity))
                     .upVote(upVoted)
                     .build();

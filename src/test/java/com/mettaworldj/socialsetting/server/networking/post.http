@@ -10,7 +10,7 @@ Authorization: Bearer {{auth_token}}
 }
 
 ### LIKE POST
-POST http://localhost:8080/api/subSetting/CS Students/post/3/vote
+POST http://localhost:8080/api/subSetting/CS Students/post/8/vote
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}

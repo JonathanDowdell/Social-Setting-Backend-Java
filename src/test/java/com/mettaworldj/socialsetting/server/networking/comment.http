@@ -1,14 +1,20 @@
 ### CREATE COMMENT
-POST http://localhost:8080/api/subSetting/CS Students/post/14/comment
+POST http://localhost:8080/api/subSetting/CS Students/post/8/comment
 Accept: application/json
 Content-Type: application/json
 Authorization: Bearer {{auth_token}}
 
 {
-  "text": "Usually around 4 years"
+  "text": "4 years of hard work but it's worth it!"
 }
 
 ### GET COMMENT
 GET http://localhost:8080/api/subSetting/CS Students/post/8/comment?page=0
 Accept: application/json
 Authorization: Bearer {{auth_token}}
+
+### DELETE COMMENT
+DELETE http://localhost:8080/api/subSetting/CS Students/post/8/comment/12
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
