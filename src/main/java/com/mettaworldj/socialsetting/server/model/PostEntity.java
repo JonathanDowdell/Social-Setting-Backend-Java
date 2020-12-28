@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Objects;
 
 @Data
@@ -45,6 +46,8 @@ public class PostEntity {
     private SubSettingEntity subSettingEntity;
 
     private int voteCount = 0;
+
+    private Instant createdDate;
 
     @Data
     @AllArgsConstructor

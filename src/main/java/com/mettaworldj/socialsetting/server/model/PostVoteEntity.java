@@ -8,10 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
@@ -24,14 +21,16 @@ import java.util.Objects;
 @IdClass(PostVoteEntity.PostVoteEntityId.class)
 public class PostVoteEntity {
 
+
     @Id
-    private Long userId;
+    private Long subSettingId;
 
     @Id
     private Long postId;
 
     @Id
-    private Long subSettingId;
+    private Long userId;
+
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -66,13 +65,14 @@ public class PostVoteEntity {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    @Builder
     public static class PostVoteEntityId implements Serializable {
 
-        private Long userId;
+        private Long subSettingId;
 
         private Long postId;
 
-        private Long subSettingId;
+        private Long userId;
 
         @Override
         public boolean equals(Object o) {
