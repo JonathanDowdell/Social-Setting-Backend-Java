@@ -1,5 +1,7 @@
 package com.mettaworldj.socialsetting.server.service.auth;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.mettaworldj.socialsetting.server.dto.auth.request.SignUpRequestDto;
 import com.mettaworldj.socialsetting.server.dto.auth.response.AuthenticationResponseDto;
 import com.mettaworldj.socialsetting.server.dto.general.NotificationEmail;
@@ -13,6 +15,7 @@ import com.mettaworldj.socialsetting.server.repository.SubscriptionRepository;
 import com.mettaworldj.socialsetting.server.repository.UserRepository;
 import com.mettaworldj.socialsetting.server.repository.VerificationTokenRepository;
 import com.mettaworldj.socialsetting.server.service.mail.IMailService;
+import com.mettaworldj.socialsetting.server.service.refresh.IRefreshTokenService;
 import com.mettaworldj.socialsetting.server.service.verify.IVerifyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,9 +25,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.mettaworldj.socialsetting.server.security.SecurityConstants.EXPIRATION_TIME;
+import static com.mettaworldj.socialsetting.server.security.SecurityConstants.SECRET;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +45,7 @@ public class AuthService implements IAuthService {
     private final VerificationTokenRepository verificationTokenRepository;
 
     private final IVerifyService verifyService;
+    private final IRefreshTokenService refreshTokenService;
     private final IMailService mailService;
 
     @Override
@@ -92,9 +100,23 @@ public class AuthService implements IAuthService {
         final UserEntity userEntity = verificationTokenEntity.getUserEntity();
         userEntity.setEnabled(true);
         verificationTokenRepository.delete(verificationTokenEntity);
+
+        final Date expiresAt = new Date(System.currentTimeMillis() + EXPIRATION_TIME);
+        final String token = JWT.create()
+                .withSubject(userEntity.getUsername())
+                .withClaim("publicId", userEntity.getPublicId())
+                .withExpiresAt(expiresAt)
+                .sign(Algorithm.HMAC512(SECRET.getBytes()));
+
+        final AuthenticationResponseDto.AuthExpireAt authExpireAt = AuthenticationResponseDto.AuthExpireAt.builder()
+                .nano(expiresAt.toInstant().getNano()).epochSecond(expiresAt.toInstant().getEpochSecond()).build();
+
         return AuthenticationResponseDto.builder()
-                .username(userEntity.getUsername())
                 .publicId(userEntity.getPublicId())
+                .authenticationToken(token)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(authExpireAt)
+                .username(userEntity.getUsername())
                 .profileName(userEntity.getProfileName())
                 .build();
     }
