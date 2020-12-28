@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mettaworldj.socialsetting.server.dto.auth.request.SignInRequestDto;
-import com.mettaworldj.socialsetting.server.dto.auth.request.SignUpRequestDto;
 import com.mettaworldj.socialsetting.server.dto.auth.response.AuthenticationResponseDto;
 import com.mettaworldj.socialsetting.server.exception.SocialSettingException;
 import com.mettaworldj.socialsetting.server.model.UserEntity;
@@ -34,12 +33,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
-    private final IRefreshTokenService refreshTokenRepository;
+    private final IRefreshTokenService refreshTokenService;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, IRefreshTokenService refreshTokenRepository) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserRepository userRepository, IRefreshTokenService refreshTokenService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
-        this.refreshTokenRepository = refreshTokenRepository;
+        this.refreshTokenService = refreshTokenService;
         setFilterProcessesUrl("/auth/login");
     }
 
@@ -73,12 +72,12 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .nano(expiresAt.toInstant().getNano()).epochSecond(expiresAt.toInstant().getEpochSecond()).build();
 
         final AuthenticationResponseDto authenticationResponseDto = AuthenticationResponseDto.builder()
-                .authenticationToken(token)
-                .expiresAt(authExpireAt)
-                .profileName(userEntity.getProfileName())
                 .publicId(userEntity.getPublicId())
-                .refreshToken(refreshTokenRepository.generateRefreshToken().getToken())
+                .authenticationToken(token)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(authExpireAt)
                 .username(userEntity.getUsername())
+                .profileName(userEntity.getProfileName())
                 .build();
 
         final String acceptType = request.getHeader("Accept") == null ? "application/json" : request.getHeader("Accept");
