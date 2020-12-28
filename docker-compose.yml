@@ -1,0 +1,38 @@
+version: '3'
+
+networks:
+  social-network:
+
+services:
+  social-setting:
+    container_name: "Social"
+    image: social-setting:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    depends_on:
+      - social-setting-db
+    ports:
+      - 8086:8080
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://social-setting-db:5432/socialsetting
+    networks:
+      - social-network
+
+  social-setting-db:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=~56%78Hu+*GF%4yB
+      - POSTGRES_USER=metta
+      - POSTGRES_DB=socialsetting
+    ports:
+      - 8087:5432
+    volumes:
+      - social-setting-volume:/var/lib/postgresql/data
+    networks:
+      - social-network
+
+volumes:
+  social-setting-volume:
