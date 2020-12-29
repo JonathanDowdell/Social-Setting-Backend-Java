@@ -2,17 +2,13 @@ package com.mettaworldj.socialsetting.server.mapper;
 
 import com.github.marlonlom.utilities.timeago.TimeAgo;
 import com.mettaworldj.socialsetting.server.dto.post.reponse.PostResponseDto;
-import com.mettaworldj.socialsetting.server.model.CommentEntity;
 import com.mettaworldj.socialsetting.server.model.PostEntity;
 import com.mettaworldj.socialsetting.server.model.PostVoteEntity;
-import com.mettaworldj.socialsetting.server.model.UserEntity;
 import com.mettaworldj.socialsetting.server.repository.PostVoteRepository;
 import com.mettaworldj.socialsetting.server.service.auth.IAuthService;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Mapper(componentModel = "spring")
 @DecoratedWith(PostMapper.PostMapperDecorator.class)

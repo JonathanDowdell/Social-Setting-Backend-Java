@@ -3,11 +3,9 @@ package com.mettaworldj.socialsetting.server.mapper;
 import com.mettaworldj.socialsetting.server.dto.subSetting.response.SubSettingResponseDto;
 import com.mettaworldj.socialsetting.server.model.SubSettingEntity;
 import com.mettaworldj.socialsetting.server.repository.PostRepository;
-import com.mettaworldj.socialsetting.server.service.post.PostService;
 import org.mapstruct.DecoratedWith;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 @Mapper(componentModel = "spring")
 @DecoratedWith(SubSettingMapper.SubSettingMapperDecorator.class)
